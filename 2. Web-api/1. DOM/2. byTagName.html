@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <ul id="fruits">
+        <li id="apple">apple1</li>
+        <li id="banana">banana2</li>
+        <li id="grape">grape3</li>
+    </ul>
+
+    <ol>
+        <li>야야야</li>
+        <li>왜왜왜</li>
+    </ol>
+
+    <script>
+
+        //유사 배열
+        //key가 인덱스처럼 구성되어 있고 length 프로퍼티가 있음
+        const arr = {
+            0: 'a',
+            1: 'b',
+            2: 'c',
+            length: 3,
+            name: 'ddd',
+            age: 50
+        };
+        console.log(arr[0]);
+
+        const $ul = document.getElementById('fruits');
+
+        // const $liArray = document.getElementsByTagName('li');
+        const $liArray = $ul.getElementsByTagName('li');
+        //id가 fruits인 ul에서 li를 가져옴
+
+        console.log($liArray);
+        console.log($liArray[0]);
+        console.log($liArray.length);
+        console.log($liArray.banana);
+
+        /*메서드명이 Elements인 것에서 알 수 있듯이 하나만 가
+        져오는 게 아니라 태그명에 해당하는 모든 노드를 유사
+        배열 객체인 HTMLCollection에 담아 반환합니다.
+        
+        0번 인덱스에도 apple이 저장되어있고 .apple에도 마찬가지*/
+
+        /*
+        for (let $ele of $liArray) {
+            $ele.style.fontStyle = 'italic';
+        }
+        */
+       for (let i = 0; i < $liArray.length; i++) {
+           $liArray[i].style.color = 'red';
+       }
+
+       //태그네임으로 제어하다보니 ul > li와 ol > li 둘다 적용됨
+
+
+    </script>
+
+</body>
+</html>

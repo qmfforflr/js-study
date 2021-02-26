@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <ul id="fruits">
+        <li class="fruit apple">apple1</li>
+        <li class="fruit banana">banana2</li>
+        <li class="fruit grape">grape3</li>
+    </ul>
+
+    <script>
+        const $elements = document.getElementsByClassName('fruit');
+        $elements[2].style.color = 'purple';
+
+        const $banana = document.getElementsByClassName('banana');
+        $banana[0].style.color = 'yellow';
+        //banana 단 하나여도 0번 인덱스를 참조해야함 불편
+
+    </script>
+
+</body>
+</html>
