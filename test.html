@@ -2,13 +2,27 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>test</title>
+    <title>Document</title>
+
+    <style>
+        .orange ~ li {
+            color: yellowgreen;
+        }
+        li +li ~ li {
+            background: gray;
+        }
+    </style>
 </head>
 <body>
     
-    <script src="test.js"></script>
+    <ul>
+        <li>사과</li>
+        <li>딸기</li>
+        <li class="orange">오렌지</li>
+        <li>망고</li>
+        <li>포도</li>
+    </ul>
 
 </body>
 </html>
