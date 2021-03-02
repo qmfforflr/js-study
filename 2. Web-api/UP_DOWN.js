@@ -9,7 +9,7 @@
    출력하는 로직을 추가하세요.
 */
 
-const ran = Math.floor(Math.random() * 101);
+const ran = Math.floor(Math.random() * 100) + 1;
 alert(`[UP & DOWN 게임 - 1 ~ 100 사이의 숫자 중 어떤 숫자가 들어 있을까요??]`);
 
 let attempt = 0;
