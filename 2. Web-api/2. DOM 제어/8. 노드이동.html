@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <ul id="fruits">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Grape</li>
+    </ul>
+
+    <script>
+
+        const $fruits = document.getElementById('fruits');
+
+        //배열 디스트럭쳐링 (ES6)
+        /*
+        const $children = [...$fruits.children];
+        const $apple = $children[0];
+        const $Banana = $children[1];
+        const $Grape = $children[2];
+        */
+        //----->
+        const [$apple, $banana, $grape] = [...$fruits.children];
+        //반드시 우항에는 배열이 들어가야 함
+
+        const $mango = document.createElement('li');
+        $mango.textContent = 'Mango';
+
+        //맨 마지막에 추가
+        $fruits.appendChild($mango);
+
+        //이미 활성화된 요소를 추가하면 이동함.
+        $fruits.appendChild($banana);
+
+        $fruits.insertBefore($apple, $mango);
+
+        //grape를 맨 마지막 노드 바로 앞으로 옮겨보세요.
+        //Apple - Mango - Grape -Banana 가 되어야 함.
+        $fruits.insertBefore($grape, $fruits.lastElementChild);
+
+    </script>
+
+</body>
+
+</html>
