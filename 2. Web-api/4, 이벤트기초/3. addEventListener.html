@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <button id="btn">클릭!</button>
+
+    <script>
+
+        const $btn = document.getElementById('btn');
+
+
+        function hello() {
+            alert('hello!');
+        }
+
+        //첫번째 인자로는 실행할 타입(ex, click, mouseenter, ...)
+        //두번째 인자로는 콜백할 함수
+        $btn.addEventListener('click', hello);
+        $btn.addEventListener('click', function() {
+            alert('world!');
+        });
+        $btn.addEventListener('click', function() {
+            alert('bye!');
+        });
+
+        //이벤트 핸들러 제거
+        //이름이 없는 익명함수는 제거 불가능, 이름이 있는 함수만 제거 가능
+        $btn.removeEventListener('click', hello);
+    </script>
+</body>
+</html>

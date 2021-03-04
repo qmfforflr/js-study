@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <input type="text">
+    <p class="msg"></p>
+
+    <script>
+
+        const $input = document.querySelector('input');
+        const $msg = document.querySelector('.msg');
+
+        $input.addEventListener('keyup', e => {
+            // console.log(e.key);
+            // console.log(e);
+            //엔터를 누르면 p태그의 텍스트에 e.target.value 즉, input의 내용이 들어가도록
+            if (e.key === 'Enter') {
+                $msg.textContent = e.target.value;
+                e.target.value = '';
+            } 
+            //esc를 누르면 p태그 텍스트 삭제
+            else if (e.key === 'Escape') {
+                $msg.textContent = '';
+            }
+        });
+    </script>
+</body>
+</html>
