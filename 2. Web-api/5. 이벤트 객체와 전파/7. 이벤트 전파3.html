@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #fruits {
+            display: flex;
+            list-style: none;
+            padding: 20px;
+            border: 1px solid tomato;
+        }
+
+        #fruits li {
+            width: fit-content;
+            cursor: pointer;
+            background: yellow;
+            margin-right: 20px;
+        }
+
+        #fruits .active {
+            color: red;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <ul id="fruits">
+        <li id="apple" class="active">Apple</li>
+        <li id="banana">Banana</li>
+        <li id="grape">Grape</li>
+    </ul>
+
+    <div>선택된 과일: <em class="msg">apple</em></div>
+
+    <br>
+
+    # 새로운 과일 추가: <input type="text" class="text-box">
+    <button id="add">추가</button>
+
+    <script>
+        const $fruits = document.getElementById('fruits');
+        const $msg = document.querySelector('.msg');
+
+        //이벤트 핸들러 함수
+        const active = e => {
+
+            //이벤트 발생 타겟이 특정 요소인지를 검증
+            //이벤트 발생 타겟이 li가 아니라면 return(종료)한다.
+            if (!e.target.matches('#fruits > li')){
+                return;
+            }
+            // console.log(e.target);
+
+            for (let $target of [...$fruits.children]) {
+                $target.classList.toggle('active', $target === e.target);
+                $msg.textContent = e.target.id;
+            }
+        };
+
+        //ul에 이벤트 등록
+        $fruits.addEventListener('click', active);
+
+        //동적으로 과일 추가 기능
+        const $textBox = document.querySelector('.text-box');
+        const $btn = document.getElementById('add');
+
+        //버튼에 이벤트 등록
+        $btn.addEventListener('click', e => {
+            const $newLi = document.createElement('li');             //<li></li>
+            $newLi.textContent = $textBox.value;                     //<li>Orange</li>
+            $newLi.setAttribute('id', $textBox.value.toLowerCase()); //<li id="orange">Orange</li>
+            $fruits.appendChild($newLi);
+            $textBox.value = '';
+
+        });
+
+        /*수정사항 :
+        1. 반복적인 이벤트 수행은 성능저하의 원인이므로 반복문으로
+           이벤트를 적용하는 대신, 부모에게 이벤트를 걸어서 전파받음
+        2. 반복문을 삭제하였기 때문에 $liList를 삭제하고 함수에 바로 적용
+        3. 이벤트가 부모에게 걸려있기 때문에 새로운 li를 liList에 넣을필요없음
+        */
+    </script>
+</body>
+
+</html>
