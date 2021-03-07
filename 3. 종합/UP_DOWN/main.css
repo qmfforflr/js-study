@@ -36,6 +36,7 @@ section.main .main-title {
 
 section.main .number-wrapper {
     padding: 50px 20px;
+    position: relative;
 }
 
 section.main .number-wrapper h2 {
@@ -52,7 +53,7 @@ section.main .number-wrapper h2 em {
 
 #numbers {
     width: 70%;
-    height: 400px;
+    height: 500px;
     border: 1px solid #000;
     border-radius: 10px;
     margin: 30px auto 0;
@@ -141,5 +142,59 @@ section.main .number-wrapper h2 em {
     }
     100%{
         transform: translateY(-20px);
+    }
+}
+
+
+/* 정답 애니메이션 */
+#finish {
+    width: 60%;
+    height: 200px;
+    background: tomato;
+    font-size: 80px;
+    font-weight: 700;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin: auto;
+    transform: translateY(-210px);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#finish.GG {
+    animation: reveal 1s linear 0.5s forwards;
+    
+}
+
+@keyframes reveal {
+    0% {
+        opacity: 0.6;
+        transform: translateY(-210px);
+    }
+    /* 50% {
+        opacity: 0.8;
+        transform: translateY(100px);
+    } */
+    100%{
+        opacity: 1;
+        transform: translateY(700px);
+    }
+}
+
+#numbers .icon.rAnswer {
+    border: 4px dashed #fff;
+    position: absolute;
+    animation: move 2s linear both;
+}
+
+@keyframes move {
+    0%{        
+        transform: translate(400px, -230px) scale(1);
+    }
+    
+    100%{
+        transform: translate(250px, 10px) scale(2);
     }
 }
