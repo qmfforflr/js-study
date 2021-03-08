@@ -1,3 +1,4 @@
+
 /* reset */
 a {
     color: inherit;
@@ -18,8 +19,8 @@ input, button {
 section.todo-template {
     width: 512px;
     margin: 0 auto;
+    padding: 6rem 0;
     border-radius: 5px;
-    padding: 6rem;
     overflow: hidden;
 }
 
@@ -27,6 +28,7 @@ section.todo-template .app-title {
     background: #22b8cf;
     color: #fff;
     height: 4rem;
+    font-size: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,7 +47,7 @@ section.todo-template .content .todo-insert input {
     flex: 1;
     padding: 0.5rem;
     font-size: 1.125rem;
-    line-height: 1.5;
+    line-height: 1.5;    
     color: #fff;
 }
 
@@ -56,7 +58,7 @@ section.todo-template .content .todo-insert input::placeholder {
 section.todo-template .content .todo-insert button {
     background: #868e96;
     color: #fff;
-    padding: 0.1rem;
+    padding: 0 1rem;
     font-size: 1.3rem;
     cursor: pointer;
     display: flex;
@@ -65,14 +67,13 @@ section.todo-template .content .todo-insert button {
 }
 
 section.todo-template .content .todo-insert button:hover {
-    background: #abd5bd;
+    background: #adb5bd;
 }
 
 section.todo-template .content .todo-list {
     min-height: 320px;
-    min-height: 520px;
+    max-height: 520px;
     overflow: auto;
-
 }
 
 section.todo-template .content .todo-list .todo-list-item {
@@ -81,7 +82,7 @@ section.todo-template .content .todo-list .todo-list-item {
     align-items: center;
 }
 
-section.todo-template .content .todo-list .todo-list-item:nth-child(2n) {
+section.todo-template .content .todo-list .todo-list-item:nth-child(even) {
     background: #f8f9fa;
 }
 
@@ -90,29 +91,24 @@ section.todo-template .content .todo-list .todo-list-item .checkbox {
     display: flex;
     align-items: center;
 }
-
 section.todo-template .content .todo-list .todo-list-item .checkbox input {
     transform: scale(1.5);
 }
-
 section.todo-template .content .todo-list .todo-list-item .checkbox .text {
     flex: 1;
     margin-left: 0.5rem;
 }
 
-/* 코드 중복을 최소화 하기위해 공통부분을 따로 뺌 */
 section.todo-template .content .todo-list .todo-list-item div[class] {
     font-size: 1.5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
 }
-
 section.todo-template .content .todo-list .todo-list-item .modify {
     color: green;
     margin-right: 0.6rem;
 }
-
 section.todo-template .content .todo-list .todo-list-item .remove {
     color: red;
 }
