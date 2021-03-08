@@ -18,7 +18,6 @@ function makeNumberIcons() {
             
             $icon.classList.add('icon');
             $icon.textContent = i;
-            $icon.classList.toggle('rAnswer', gameDatas.answer === gameDatas.secret && gameDatas.answer === i);
             $frag.appendChild($icon);
         }
         $numbers.appendChild($frag);
@@ -30,8 +29,24 @@ function clearNumberIcons($numbers) {
         $numbers.removeChild($icon);
     }
 }
+//up&down 애니메이션을 작동시킬 클래스 추가/제거 함수 정의
+function executeUpDownAnimation(isUp) {
+    //클래스 이름을 쉽게 관리하기 위해.
+    const ANI_CLASS_NAME = 'selected';
+    document.getElementById('up').classList.toggle('selected', isUp);
+    document.getElementById('down').classList.toggle('selected', !isUp);
+}
+
+//정답을 맞췄을 때 처리를 수행할 함수 정의
+function processCorrect($target) {
+    const $finish = document.getElementById('finish');
+    $finish.classList.add('GG');
+
+    //정답 아이콘을 움직이게 하는 코드
+    $target.setAttribute('id', 'move');
+}
 //정답을 판별해주는 함수 정의
-function checkAnswer($numbers, e) {
+function checkAnswer($numbers, $target) {
     //객체 디스트럭쳐링
     const {secret, answer} = gameDatas;
 
@@ -40,30 +55,30 @@ function checkAnswer($numbers, e) {
     const $up = document.getElementById('up');
     const $down = document.getElementById('down');
     const $finish = document.getElementById('finish');
-    const $cIcon = document.querySelector('#numbers .icon');
     
     // console.log(secret);
     if (secret === answer) {
-        $finish.classList.add('GG');
-        e.target.classList.add('rAnswer');
+        processCorrect($target);
+        return;
         // console.log(e.target);
     } else if (secret < answer) {
         //DOWN인 경우
         gameDatas.max = answer - 1;
-        $end.textContent = gameDatas.max + 1;
+        $end.textContent = answer;
+        executeUpDownAnimation(false)
     } else {
         //UP인 경우
         gameDatas.min = answer + 1;
-        $begin.textContent = gameDatas.min - 1;
+        $begin.textContent = answer;
+        executeUpDownAnimation(true)
     }
-    $up.classList.toggle('selected', secret > answer);
-    $down.classList.toggle('selected', secret < answer);
+    // $up.classList.toggle('selected', secret > answer);
+    // $down.classList.toggle('selected', secret < answer);
     console.log(gameDatas);
     
     //정답 판별 이후 아이콘 재배치
     clearNumberIcons($numbers);//현재 렌더링 되어있는 아이콘들 전체 삭제
     makeNumberIcons(); //min, max 변화대로 재배치
-    // console.log(e.target);
 }
 
 //핵심 실행 로직 즉시 실행함수
@@ -82,9 +97,7 @@ function checkAnswer($numbers, e) {
         // console.log(gameDatas);
         
         //정답 체크 함수 호출
-        checkAnswer($numbers, e);
-        // console.log(e.target);
-        // e.target.classList.toggle('rAnswer');
+        checkAnswer($numbers, e.target);
     })
     
 
