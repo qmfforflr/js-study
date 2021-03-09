@@ -44,7 +44,7 @@ section.todo-template .content .todo-insert {
 }
 
 section.todo-template .content .todo-insert .error {
-    background: red;
+    background: orangered;
 }
 
 section.todo-template .content .todo-insert input {

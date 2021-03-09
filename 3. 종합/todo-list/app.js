@@ -63,18 +63,24 @@ function insertToDoData() {
 
     const $todoText = document.getElementById('todo-text');
 
+    //필수 입력란이 공백인지 검증
+    //trim(): 문자열의 앞뒤 공백을 제거
+    if ($todoText.value.trim() === '') {
+        $todoText.classList.toggle('error', $todoText.value === '');
+        // $todoText.placeholder = '필수 입력사항입니다!'
+        $todoText.setAttribute('placeholder', '필수 입력사항입니다!');
+        $todoText.value = '';
+        return;
+    } else {
+        $todoText.setAttribute('placeholder', '할 일을 입력하세요.');
+        //css 다시 되돌리기
+    }
     //1. todos배열에 객체를 생성 한 후 push
     const newToDo = {
         id: makeNewId(),
         text: $todoText.value,
         done: false
     };
-    if ($todoText.value === '') {
-        $todoText.classList.toggle('error', $todoText.value === '');
-        $todoText.placeholder = '필수 입력사항입니다!'
-        //input todotext.placeholder 필수 입력사항입니다.랑 background 수정
-        return;
-    }
     todos.push(newToDo);
     // console.log(todos);
 
