@@ -43,6 +43,10 @@ section.todo-template .content .todo-insert {
     background: #495057;
 }
 
+section.todo-template .content .todo-insert .error {
+    background: red;
+}
+
 section.todo-template .content .todo-insert input {
     flex: 1;
     padding: 0.5rem;
@@ -91,12 +95,28 @@ section.todo-template .content .todo-list .todo-list-item .checkbox {
     display: flex;
     align-items: center;
 }
+
+section.todo-template .content .todo-list .todo-list-item .checkbox.checked {
+    color: #adb5bd;
+    text-decoration: line-through;
+}
+
 section.todo-template .content .todo-list .todo-list-item .checkbox input {
     transform: scale(1.5);
 }
 section.todo-template .content .todo-list .todo-list-item .checkbox .text {
     flex: 1;
     margin-left: 0.5rem;
+}
+
+section.todo-template .content .todo-list .todo-list-item .checkbox .mod-input {
+    margin-left: 4rem;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    width: 200px;
+    padding: 4px;
+    box-sizing: border-box;
+    font-size: 12px;
 }
 
 section.todo-template .content .todo-list .todo-list-item div[class] {
