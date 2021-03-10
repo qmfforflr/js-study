@@ -35,8 +35,8 @@ function makeNewToDoNode(newToDo) {
 
     //label 태그 작업
     $label.classList.add('checkbox');
-    $label.innerHTML = `<input type="checkbox">
-<span class="text">${newToDo.text}</span>`;
+    $label.innerHTML = `<input type="checkbox"><span class="text">
+                        ${newToDo.text}</span>`;
 
     //수정div 태그 작업
     $divMod.classList.add('modify');
@@ -132,10 +132,17 @@ function changeCheckState($label) {
 }
 
 //할 일 삭제 처리 함수 정의
-function remvoeToDoData($delTarget) {
+function removeToDoData($delTarget) {
     //1. 삭제를 하려면 ul에서 li를 지워야 함.
     //2. 지우려면 ul노드랑 삭제대상 li의 노드를 받아야 함.
-    document.querySelector('.todo-list').removeChild($delTarget);
+    $delTarget.classList.add('delMoving');
+
+    //비동기 실행을 위한 함수
+    //핸들러 즉, 콜백함수를 넣어주고, 딜레이를 밀리세컨드(ms)단위로 넣어줌
+    setTimeout(() => {
+        document.querySelector('.todo-list').removeChild($delTarget);
+    }, 1500);
+    
 
     const index = findIndexByDataId(+$delTarget.dataset.id);
     if (index !== null) {
@@ -203,10 +210,11 @@ function modifyToDoData($modCompleteSpan) {
 
         insertToDoData();
     });
-    //Enter입력으로 추가
-    $addBtn.addEventListener('keyup', e => {
-        insertToDoData();
-    });
+    // //Enter입력으로 추가 
+    // form으로 버튼과 입력창을 연결해놓아서 생략가능
+    // $addBtn.addEventListener('keyup', e => {
+    //     insertToDoData();
+    // });
 
     //할 일 완료(체크박스) 이벤트
     const $todoList = document.querySelector('ul.todo-list');
@@ -230,7 +238,7 @@ function modifyToDoData($modCompleteSpan) {
         }
 
         if (confirm('정말 삭제하시겠습니까?')) {
-            remvoeToDoData(e.target.parentNode.parentNode);
+            removeToDoData(e.target.parentNode.parentNode);
         }
     })
 
