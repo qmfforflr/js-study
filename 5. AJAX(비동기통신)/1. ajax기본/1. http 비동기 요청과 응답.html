@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button id="load-btn">게시물 불러오기</button>
+    <ul class="content"></ul>
+
+
+
+    <script>
+        document.getElementById('load-btn').addEventListener('click',
+            e => {
+                //HTTP 비동기 요청을 서버로 보내는 방법
+                //1. XMLHttpRequest 객체를 생성
+                const xhr = new XMLHttpRequest();
+
+                //2. http 요청 초기설정
+                xhr.open('GET', 'http://localhost:5000/article');
+
+                //3. http 요청 전송
+                xhr.send();
+                //send를 하게되면 response 데이터가 xhr에 담기게 됨
+                console.log(xhr);
+
+                //4. 응답 정보 체크
+                xhr.onload = e=> {
+                    if (xhr.status === 200) {
+                        console.log(xhr.response);
+                        makeResultData(xhr.response);
+                    } else {
+                        console.error('통신 실패!');
+                    }
+                };
+            });
+
+            //응답 정보로 DOM을 조작하는 함수
+            function makeResultData(articles) {
+                /*
+                    서버가 응답한 데이터는 javascript객체가 아니라
+                    json 포맷의 데이터입니다.
+                    따라서 javascript 문법을 사용할 수 없습니다.
+                    json을 javascript로 변환해서 써야합니다.
+                    
+                    # json -> javascript : JSON.parse()
+                      javascript -> json : JSON.stringify()
+                */
+               //JSON을 JS객체로 변환
+                const articleList = JSON.parse(articles);
+                const firstArticle = articleList[0];
+
+                console.log('첫번째 게시물 : ', firstArticle);
+
+                const $ul = document.querySelector('.content');
+                for (let board of articleList) {
+                    const {id, writer, title} = board;
+                    const $li = document.createElement('li');
+                    $li.textContent = `글번호: ${id}, 제목: ${title}
+                    , 작성자: ${writer}`;
+
+                    $ul.appendChild($li);
+                }
+
+                
+            }
+
+    </script>
+
+</body>
+
+</html>
