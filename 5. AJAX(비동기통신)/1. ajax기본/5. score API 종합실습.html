@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        label {
+            display: block;
+        }
+
+        .del-btn {
+            width: 100px;
+            height: 10px;
+            background: red;
+            color: white;
+            border-radius: 5px;
+            margin-left: 5px;
+            text-decoration: none;
+            font-size: 0.7em;
+            padding: 6px;
+        }
+
+        .del-btn:hover {
+            background: orangered;
+            cursor: pointer;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>시험 점수 등록</h1>
+
+    <div class="register">
+        <label>
+            # 이름: <input type="text" name="name">
+        </label>
+        <label>
+            # 국어: <input type="text" name="kor">
+        </label>
+        <label>
+            # 영어: <input type="text" name="eng">
+        </label>
+        <label>
+            # 수학: <input type="text" name="math">
+        </label>
+        <button id="insert">확인</button>
+        <button id="load-btn">성적 불러오기</button>
+
+        <ul id="list" class="sList">
+
+        </ul>
+    </div>
+    <script>
+        //조회
+        // document.getElementById('load-btn').onclick = e => {
+        //HTTP 비동기 요청을 서버로 보내는 방법
+        //1. XMLHttpRequest 객체를 생성
+        // const xhr = new XMLHttpRequest();
+
+        // //2. http 요청 초기설정
+        // xhr.open('GET', 'http://localhost:8181/api/score');
+
+        // //3. http 요청 전송
+        // xhr.send();
+        // //send를 하게되면 response 데이터가 xhr에 담기게 됨
+        // console.log(xhr);
+
+        // //4. 응답 정보 체크
+        // xhr.onload = e => {
+        //     if (xhr.status === 200) {
+        //         console.log(xhr.response);
+        //         makeResultData(xhr.response);
+        //     } else {
+        //         console.error('통신 실패!');
+        //     }
+        // };
+        // };
+        function renewal() {
+            const xhr = new XMLHttpRequest();
+
+            //2. http 요청 초기설정
+            xhr.open('GET', 'http://localhost:8181/api/score');
+
+            //3. http 요청 전송
+            xhr.send();
+            //send를 하게되면 response 데이터가 xhr에 담기게 됨
+            console.log(xhr);
+
+            //4. 응답 정보 체크
+            xhr.onload = e => {
+                if (xhr.status === 200) {
+                    console.log("목록" + xhr.response);
+                    makeResultData(xhr.response);
+                } else {
+                    console.error('통신 실패!');
+                }
+            };
+        }
+        renewal();
+
+
+        //등록
+        document.getElementById('insert').onclick = e => {
+            // e.preventDefault();
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8181/api/score');
+
+            const newData = {
+                name: document.querySelector('input[name=name]').value,
+                kor: document.querySelector('input[name=kor]').value,
+                eng: document.querySelector('input[name=eng]').value,
+                math: document.querySelector('input[name=math]').value
+            }
+
+            xhr.setRequestHeader('content-type', 'application/json');
+
+            const newJsonData = JSON.stringify(newData);
+            xhr.send(newJsonData);
+
+            xhr.onload = e => {
+                if (xhr.status === 200 || xhr.status === 201) {
+                    alert('입력 성공!');
+                } else {
+                    alert('입력 실패!');
+                }
+                const $lastLi = [...document.querySelectorAll('li')];
+                for (let $lLi of $lastLi) {
+                    $lLi.remove();
+                }
+
+                renewal();
+            }
+        };
+
+        function makeResultData(scores) {
+
+            //JSON을 JS객체로 변환
+            const scoreList = JSON.parse(scores);
+            const firstScore = scoreList[0];
+
+            console.log('첫번째 성적: ', firstScore);
+
+            const $ul = document.querySelector('.sList');
+            const $firstLi = document.createElement('li');
+            $firstLi.textContent = `총 학생 수: ` + scoreList.length + `명`;
+            $ul.appendChild($firstLi);
+            for (let score of scoreList) {
+                const {
+                    stuNum,
+                    name,
+                    kor,
+                    eng,
+                    math,
+                    total,
+                    average
+                } = score;
+                // console.log(score);
+                const $li = document.createElement('li');
+                $li.textContent = `# 학번: ${stuNum}, 이름: ${name}, 국어: ${kor}
+                    , 영어: ${eng}, 수학: ${math}, 총점: ${total}, 평균: ${average}`;
+
+                const $btn = document.createElement('button');
+                // $btn.setAttribute('id', 'del-btn');
+                $btn.classList.add('del-btn');
+                $btn.setAttribute('value', `${stuNum}`);
+                // console.log($btn.getAttribute('value'));
+                $btn.textContent = '삭제';
+                $li.appendChild($btn);
+
+                $ul.appendChild($li);
+
+
+            }
+
+
+            //삭제
+            document.getElementById('list').onclick = e => {
+
+                if (!e.target.matches('#list > li > button')) {
+                    return;
+                }
+                const xhr = new XMLHttpRequest();
+                const stuNum = e.target.value;
+                // e.stopPropagation();
+                console.log(stuNum);
+                xhr.open('DELETE', 'http://localhost:8181/api/score/' + stuNum);
+                xhr.send();
+
+                xhr.onload = e => {
+                    if (xhr.status === 200) {
+                        alert('삭제 성공!');
+                    } else {
+                        alert('삭제 실패!');
+                    }
+                    const $lastLi = [...document.querySelectorAll('li')];
+                    for (let $lLi of $lastLi) {
+                        $lLi.remove();
+                    }
+
+                    renewal();
+                };
+            };
+        };
+
+
+
+        // function deleteData(score) {
+
+        // }
+
+        //삭제
+    </script>
+</body>
+
+</html>

@@ -11,6 +11,7 @@
 <body>
 
     <button id="load-btn">게시물 불러오기</button>
+    <button id="hello-btn">자바 api 통신하기</button>
     <ul class="content"></ul>
 
 
@@ -31,7 +32,7 @@
                 console.log(xhr);
 
                 //4. 응답 정보 체크
-                xhr.onload = e=> {
+                xhr.onload = e => {
                     if (xhr.status === 200) {
                         console.log(xhr.response);
                         makeResultData(xhr.response);
@@ -41,35 +42,52 @@
                 };
             });
 
-            //응답 정보로 DOM을 조작하는 함수
-            function makeResultData(articles) {
-                /*
-                    서버가 응답한 데이터는 javascript객체가 아니라
-                    json 포맷의 데이터입니다.
-                    따라서 javascript 문법을 사용할 수 없습니다.
-                    json을 javascript로 변환해서 써야합니다.
-                    
-                    # json -> javascript : JSON.parse()
-                      javascript -> json : JSON.stringify()
-                */
-               //JSON을 JS객체로 변환
-                const articleList = JSON.parse(articles);
-                const firstArticle = articleList[0];
+        //응답 정보로 DOM을 조작하는 함수
+        function makeResultData(articles) {
+            /*
+                서버가 응답한 데이터는 javascript객체가 아니라
+                json 포맷의 데이터입니다.
+                따라서 javascript 문법을 사용할 수 없습니다.
+                json을 javascript로 변환해서 써야합니다.
+                
+                # json -> javascript : JSON.parse()
+                  javascript -> json : JSON.stringify()
+            */
+            //JSON을 JS객체로 변환
+            const articleList = JSON.parse(articles);
+            const firstArticle = articleList[0];
 
-                console.log('첫번째 게시물 : ', firstArticle);
+            console.log('첫번째 게시물 : ', firstArticle);
 
-                const $ul = document.querySelector('.content');
-                for (let board of articleList) {
-                    const {id, writer, title} = board;
-                    const $li = document.createElement('li');
-                    $li.textContent = `글번호: ${id}, 제목: ${title}
+            const $ul = document.querySelector('.content');
+            for (let board of articleList) {
+                const {
+                    id,
+                    writer,
+                    title
+                } = board;
+                const $li = document.createElement('li');
+                $li.textContent = `글번호: ${id}, 제목: ${title}
                     , 작성자: ${writer}`;
 
-                    $ul.appendChild($li);
-                }
-
-                
+                $ul.appendChild($li);
             }
+
+
+        }
+
+        //스프링 REST API 통신
+        document.getElementById('hello-btn').onclick = e => {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://localhost:5000/article/3');
+            xhr.send();
+
+            xhr.onload = e => {
+                console.log(xhr.response);
+            };
+
+            
+        };
 
     </script>
 

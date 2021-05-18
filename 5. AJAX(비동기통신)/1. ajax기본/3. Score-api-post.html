@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        label {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="register">
+        <label>
+            # 이름: <input type="text" name="name">
+        </label>
+        <label>
+            # 국어: <input type="text" name="kor">
+        </label>
+        <label>
+            # 영어: <input type="text" name="eng">
+        </label>
+        <label>
+            # 수학: <input type="text" name="math">
+        </label>
+        <button id="insert">등록</button>
+
+        <button id="load-btn">성적 불러오기</button>
+
+        <ul class="score">
+
+        </ul>
+    </div>
+
+    <script>
+        document.getElementById('insert').onclick = e => {
+            e.preventDefault();
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8181/api/score');
+
+            const newData = {
+                name: document.querySelector('input[name=name]').value,
+                kor: document.querySelector('input[name=kor]').value,
+                eng: document.querySelector('input[name=eng]').value,
+                math: document.querySelector('input[name=math]').value,
+            }
+
+            xhr.setRequestHeader('content-type', 'application/json');
+
+            const newJsonData = JSON.stringify(newData);
+            xhr.send(newJsonData);
+
+            xhr.onload = e => {
+                if(xhr.status === 200 || xhr.status === 201) {
+                    alert('입력 성공!');
+                } else {
+                    alert('입력 실패!');
+                }
+            }
+        };
+
+        ////////////////////////////////////////////////////////////
+
+        document.getElementById('load-btn').onclick = e => {
+
+            const xhr1 = new XMLHttpRequest();
+            xhr1.open('GET', 'http://localhost:8181/api/score');
+            xhr1.send();
+
+            xhr1.onload = e => {
+                    if (xhr.status === 200) {
+                        console.log(xhr1.response);
+                        makeResultData(xhr1.response);
+                    } else {
+                        console.error('통신 실패!');
+                    }
+                };
+
+        };
+
+        function makeResultData(scores) {
+
+            const scoreList = JSON.parse(scores);
+            const firstScore = scoreList[0];
+
+            const $ul = document.querySelector('.score');
+            for (let score of scoreList) {
+                const {
+                    name,
+                    kor,
+                    eng,
+                    math
+                } = score;
+                const $li = document.createElement('li');
+                $li.textContent = `이름 : ${name}, 국어 : ${kor}
+                , 영어 : ${eng}, 수학 : ${math}`;
+
+                $ul.appendChild($li);
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>

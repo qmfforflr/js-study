@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        label {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="register">
+        <label>
+            # 글번호: <input type="text" name="id">
+        </label>
+        <label>
+            # 제목: <input type="text" name="title">
+        </label>
+        <label>
+            # 작성자: <input type="text" name="writer">
+        </label>
+        <button id="insert">확인</button>
+    </div>
+
+    <script>
+        //insert 버튼 클릭 이벤트
+        document.getElementById('insert').onclick = e => {
+            e.preventDefault(); //버튼 기능을 일시적으로 막아놓음
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:5000/article');
+            //DB이름을 쓰고 POST로 보내면 데이터가 등록되도록 되어있음
+            /*
+                REST API 규격
+                GET -> 조회
+                POST -> 삽입
+                PUT, PATCH -> 수정
+                DELETE -> 삭제
+            */
+           //POST 요청을 서버로 전송할 데이터가 필요하다.
+           //현재 비동기 요청이므로 서버로 보내는 데이터의 형식도 당연히 JSON이어야 함.
+
+            const newData = {
+                id: document.querySelector('input[name=id]').value,
+                title: document.querySelector('input[name=title]').value,
+                writer: document.querySelector('input[name=writer]').value
+            };
+            //전송할 데이터가 무슨 형태인지를 요청 헤더에 지정
+            xhr.setRequestHeader('content-type', 'application/json');
+
+            //전송할 데이터를 JSON으로 변환
+            const newJsonData = JSON.stringify(newData);
+            xhr.send(newJsonData);
+
+            xhr.onload = e => {
+                if(xhr.status === 200 || xhr.status === 201) {
+                    alert('입력 성공!');
+                } else {
+                    alert('입력 실패!');
+                }
+            }
+
+        }
+    </script>
+</body>
+</html>
