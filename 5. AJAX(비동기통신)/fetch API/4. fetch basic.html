@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        /*
+            # fetch API : 자바스크립트에서 제공하는 비동기 통신 함수
+            - Promise를 리턴하여 손쉽게 응답데이터를 사용할 수 있게 해줌.
+
+            - fetch 함수가 리턴하는 Promise는 단순한 응답 JSON이 아닌
+              전체 응답 정보를 담고 있습니다.
+            - 따라서 서버가 응답한 여러 정보 중 JSON 데이터를 얻어내려면
+              json() 메서드를 사용합니다. 문자열 데이터는 text() 메서드 사용.
+        */
+       fetch('http://localhost:5000/article')
+       .then(res => res.json())
+       .then(articleList => {
+            console.log(articleList);
+       });
+
+    </script>
+</body>
+</html>

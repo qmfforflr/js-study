@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        //GET 요청을 처리하는 함수
+        function get(url) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', url);
+            xhr.send();
+
+            /*
+                # 우리는 get함수 바깥쪽으로 응답 데이터를 반환하고 싶다.
+                - 하지만 응답 결과 처리가 onload 이벤트의 핸들러함수이므로
+                  get의 리턴으로 처리할 수 없다.
+            */
+            xhr.onload = e => {
+                if (xhr.status === 200) {
+                    //요청 성공시 응답 데이터 처리 부분
+                    //url마다 처리해야 하는 방식이 다르니 response를
+                    //리턴해서 그 값에 따라 처리를 하는 방법
+                    console.log("통신 성공!");
+                    console.log("123" +xhr.response);
+                    return xhr.response;
+                    //이 리턴은 onload 익명함수의 리턴이기 때문에
+                    //GET의 리턴이 아니라서 resData에 전달되지 않음.
+                } else {
+                    console.log("통신 실패!");
+                    return null;
+                }
+            };
+
+            return '메롱';
+        };
+
+        const resData = get('http://localhost:5000/article/3');
+        console.log('resData : ' + resData);
+
+    </script>
+
+</body>
+</html>
